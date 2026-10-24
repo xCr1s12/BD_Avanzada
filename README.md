@@ -43,6 +43,7 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
 ├── README.md                # Este archivo
 ├── .gitignore               # Archivos ignorados por Git
 └── src/
+    ├── 00_eliminacion.sql     # Elimina las funciones y tablas existentes
     ├── 01_tablas.sql          # Creación de tablas y restricciones (PK, FK, UNIQUE, CHECK)
     ├── 02_funciones.sql       # Las 3 funciones PL/pgSQL
     ├── 03_datosDePrueba.sql   # INSERT de planes, clientes, cuentas y movimientos
@@ -51,10 +52,11 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
 
 ### Contenido de cada archivo
 
-- **`entregable1.sql`**: script maestro. Usa `\i` de psql para incluir los archivos de `src/` en este orden: tablas, funciones, datos de prueba y consultas.
+- **`entregable1.sql`**: script maestro. Usa `\i` de psql para incluir los archivos de `src/` en este orden: eliminación, tablas, funciones, datos de prueba y consultas.
+- **`src/00_eliminacion.sql`**: elimina las 3 funciones y las 4 tablas con `DROP ... IF EXISTS`, en orden inverso a su creación para respetar las llaves foráneas. Permite volver a ejecutar el despliegue sin recrear la base de datos.
 - **`src/01_tablas.sql`**: define `planes`, `clientes`, `cuentas` y `movimientos` con sus claves primarias, foráneas, `UNIQUE` y `CHECK` (`tipo IN ('A','C')`, `monto > 0`).
 - **`src/02_funciones.sql`**: código de `info_cuenta_cliente`, `procesar_cierre_cuentas` y `reporte_cuentas`.
-- **`src/03_datosDePrueba.sql`**: datos de ejemplo (mínimo 3 planes, 4 clientes, 4 cuentas y 6 movimientos), incluyendo cuentas activas e inactivas.
+- **`src/03_datosDePrueba.sql`**: datos de ejemplo (3 planes, 4 clientes, 4 cuentas y 7 movimientos), incluyendo cuentas activas e inactivas.
 - **`src/04_consultas.sql`**: sentencias `SELECT` que prueban cada función, incluido el caso de error por cuenta inexistente.
 - **`.gitignore`**: excluye archivos que no deben versionarse.
 
@@ -65,11 +67,13 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
 
 ## Cómo ejecutar
 
-1. Crear la base de datos:
+1. Crear la base de datos (solo la primera vez):
 
    ```bash
-   createdb -U postgres cooperativa
+   createdb cooperativa
    ```
+
+   Si tu instalación lo requiere, indica el usuario con `-U`, por ejemplo `createdb -U postgres cooperativa`.
 
 2. Situarse en la **raíz del proyecto** (las rutas `\i src/...` son relativas a esta carpeta):
 
@@ -80,7 +84,7 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
 3. Ejecutar el archivo maestro:
 
    ```bash
-   psql -U postgres -d cooperativa -f entregable1.sql
+   psql -d cooperativa -f entregable1.sql
    ```
 
    O desde dentro de psql:
@@ -90,11 +94,21 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
    \i entregable1.sql
    ```
 
-4. Para volver a ejecutar desde cero, recrear la base de datos:
+### Volver a ejecutar desde cero
 
-   ```bash
-   dropdb -U postgres cooperativa && createdb -U postgres cooperativa
-   ```
+No es necesario borrar ni recrear la base de datos. El archivo `src/00_eliminacion.sql` se ejecuta al inicio de `entregable1.sql` y elimina las funciones y tablas creadas anteriormente, por lo que basta con volver a correr el mismo comando:
+
+```bash
+psql -d cooperativa -f entregable1.sql
+```
+
+Para eliminar los objetos sin volver a desplegarlos, ejecutar solo ese archivo:
+
+```bash
+psql -d cooperativa -f src/00_eliminacion.sql
+```
+
+> `00_eliminacion.sql` borra las funciones y tablas del proyecto, no la base de datos `cooperativa` en sí.
 
 ### Ejecución manual de las pruebas
 
