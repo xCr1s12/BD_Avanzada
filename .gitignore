@@ -1,0 +1,25 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores e IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs y archivos temporales
+*.log
+*.tmp
+*.bak
+
+# Respaldos de base de datos
+*.dump
+*.backup
+
+# Variables de entorno y credenciales
+.env
+.env.*
+*.pem
