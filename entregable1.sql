@@ -16,4 +16,13 @@
 -------------------------
 \i src/02_funciones.sql
 
+------------------------
+------Datos de Prueba
+------------------------
+\i src/03_datosDePrueba.sql
+
+------------------------
+--------Consultas
+------------------------
+\i src/04_consultas.sql
 \echo 'Finalizado'
