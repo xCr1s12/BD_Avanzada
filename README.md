@@ -95,9 +95,7 @@ Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de lo
    ```
 
 ### Volver a ejecutar desde cero
-
-No es necesario borrar ni recrear la base de datos. El archivo `src/00_eliminacion.sql` se ejecuta al inicio de `entregable1.sql` y elimina las funciones y tablas creadas anteriormente, por lo que basta con volver a correr el mismo comando:
-
+   El archivo 00_eliminacion.sql Permite eliminar las funciones y tablas de la base de datos lo que permite volver a ejecutar el proyecto en un entorno limpio.
 ```bash
 psql -d cooperativa -f entregable1.sql
 ```
@@ -107,8 +105,6 @@ Para eliminar los objetos sin volver a desplegarlos, ejecutar solo ese archivo:
 ```bash
 psql -d cooperativa -f src/00_eliminacion.sql
 ```
-
-> `00_eliminacion.sql` borra las funciones y tablas del proyecto, no la base de datos `cooperativa` en sí.
 
 ### Ejecución manual de las pruebas
 
