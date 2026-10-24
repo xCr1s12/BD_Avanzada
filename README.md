@@ -2,10 +2,6 @@
 
 Proyecto desarrollado para la asignatura **Bases de Datos Avanzadas** de la **Universidad de Los Lagos**.
 
-**Autor(es):** _(completar nombre)_
-**Docente:** _(completar)_
-**Periodo:** _(completar)_
-
 ## Descripción
 
 Una cooperativa de ahorro y crédito necesita automatizar el procesamiento de los movimientos diarios (abonos y cargos) y la asignación de bonificaciones por permanencia de sus clientes. Este proyecto implementa, en PostgreSQL:
